@@ -18,6 +18,7 @@ import { previewConfigPayload } from "./vite.preview-config";
 import { loadStudioServerDevModule } from "./vite.studio-server-module";
 import type { openProjectHistory } from "@hyperframes/studio-server";
 import { previewChangeOwner } from "./vite.preview-watch";
+import { devEnvironmentApi } from "./vite.environment";
 
 async function loadRuntimeSourceForDev(
   server: import("vite").ViteDevServer,
@@ -306,7 +307,7 @@ function devProjectApi(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), devProjectApi()],
+  plugins: [react(), tailwindcss(), devEnvironmentApi(), devProjectApi()],
   define: {
     __STUDIO_VERSION__: JSON.stringify(studioPkg.version),
   },

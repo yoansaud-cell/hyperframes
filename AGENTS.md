@@ -105,6 +105,22 @@ skills/                 → AI agent skill definitions
 - **Frame Adapters**: Animation runtimes plug in via the seek-by-frame adapter pattern. GSAP is the primary adapter.
 - **Deterministic rendering**: No `Date.now()`, no unseeded `Math.random()`, no render-time network fetches.
 
+## Base44 development preview
+
+Run `docker compose -f docker-compose.base44.yml up -d`. Studio runs from the
+mounted checkout under Bun; workspace exports must be built before Vite starts.
+The compose file passes `BASE44_PREVIEW_MODE` through rather than enabling it
+itself; unset mode preserves ordinary application behavior. The platform's Vite
+allowed-host environment setting permits the preview proxy.
+
+The workspace Vite host supplies read-only capability probes through
+`vite.environment.ts`: desktop handoff is unavailable for a multi-project dev
+host, and FFmpeg status checks both encoder binaries rather than assuming they
+exist. Verify both `/api/environment/ffmpeg` and `/api/open-in-desktop` return
+JSON with HTTP 200. The Bun image does not include FFmpeg; exports require
+installing encoder tools. Thumbnail generation and history remain separate
+from these capability probes.
+
 ## Documentation
 
 - Docs: https://hyperframes.heygen.com/introduction
