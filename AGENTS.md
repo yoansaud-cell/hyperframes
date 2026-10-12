@@ -121,6 +121,13 @@ JSON with HTTP 200. The Bun image does not include FFmpeg; exports require
 installing encoder tools. Thumbnail generation and history remain separate
 from these capability probes.
 
+Compose uses an init process so Vite is not PID 1: an abandoned history lock
+naming PID 1 otherwise looks alive after a server restart. Recreating the old
+container cleared its ephemeral stale lock without deleting project files.
+Verify `/api/projects/demo/history` returns HTTP 200. Install-time Lefthook is
+disabled only in Compose (`LEFTHOOK=0`); Git hooks are not needed in the runtime
+container, which has no Git executable. Normal checkout hook behavior is unchanged.
+
 ## Documentation
 
 - Docs: https://hyperframes.heygen.com/introduction

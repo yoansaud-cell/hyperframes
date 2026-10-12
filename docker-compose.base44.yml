@@ -2,6 +2,7 @@ services:
   studio:
     image: oven/bun:1
     working_dir: /app
+    init: true
     volumes:
       - .:/app
       - bun-cache:/root/.bun/install/cache
@@ -18,7 +19,7 @@ services:
       - sh
       - -ec
       - |
-        bun install --frozen-lockfile \
+        LEFTHOOK=0 bun install --frozen-lockfile \
         && bun run --filter '@hyperframes/{parsers,lint,studio-server}' build \
         && bun run --filter @hyperframes/core build \
         && cd packages/studio \
